@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     =============================================
     */
 
-    int N = 16;
+    int N = 128;
 
     double Domain = 1.0;
     int NumColumns = 2;
@@ -43,12 +43,12 @@ int main(int argc, char* argv[])
     Parameters params;
     params.A = 1.0;
     params.B = 3.0;
-    params.Du = 1.0e-2;
-    params.Dv = 1.0e-1;
+    params.Du = 5.0e-5;
+    params.Dv = 5.0e-6;
 
-    double      timeStep = 0.01;
-    int         numSteps = 1000;
-    int         saveFreq = 10;
+    double      timeStep = 0.1;
+    int         numSteps = 100000;
+    int         saveFreq = 1000;
 
     /*
     =============================================
@@ -56,8 +56,6 @@ int main(int argc, char* argv[])
     =============================================
     */
 
-    unsigned int Seed = 11;
-    std::mt19937 gen(Seed);
     std::uniform_real_distribution<> Distribution(-1,1);
 
     /*
@@ -72,7 +70,7 @@ int main(int argc, char* argv[])
     std::vector<std::string> varNames = {"U", "V"};
     State theState(rank, size, N, Domain, NumColumns, varNames);
     Brusselator Problem(params, theState);
-    Problem.initialize(gen, Distribution);
+    Problem.initialize(Distribution, rank);
 
     RK4Solver Solver(Problem, timeStep, numSteps, saveFreq);
     Solver.Solve();

@@ -23,9 +23,11 @@ class ParMesh
     void                 display(int, int)   const; 
     double               getData(int j, int k, int, int)      const;
     int                  getNumEntries()     const  {return data.size();}
-    std::vector<double>& getRawData()                 {return data;}
 
-    // Modifying Member Functions
+    const std::vector<double>& getRawData() const { return data; }
+    std::vector<double>&       getRawData()       { return data; }
+    
+        // Modifying Member Functions
     void                haloExchange(int, int);
     void                updateData(int, int, int, int, double);
 

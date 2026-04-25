@@ -43,6 +43,31 @@ State State::operator+(State other)
     return result;
 }
 
+State State::operator*(double a)
+{
+    State result = *this;
+
+    int numFields = this->getNumdFields();
+
+    for (int k = 0; k < numFields; k++)
+    {
+        const std::vector<double>& dataA =
+            this->getField(k).getCurrent().getRawData();
+
+        std::vector<double>& dataR =
+            result.getField(k).getCurrent().getRawData();
+
+        int size = dataA.size();
+
+        for (int i = 0; i < size; i++)
+        {
+            dataR[i] = a * dataA[i];
+        }
+    }
+
+    return result;
+}
+
 
 // Helper Definitions
 

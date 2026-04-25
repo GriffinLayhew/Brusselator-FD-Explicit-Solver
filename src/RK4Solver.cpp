@@ -11,22 +11,14 @@ RK4Solver::RK4Solver(Brusselator& Problem, double dt, int Steps, int SF) : myPro
 // Modifying Member Functions
 void RK4Solver::doNextStep()
 {
-    double alpha1 = timeStep / 4.0;
-    double alpha2 = timeStep / 3.0;
-    double alpha3 = timeStep / 2.0;
-    double alpha4 = timeStep / 1.0;
+    State Fn = myProblem.getVars();
 
-    State CurrentState   = myProblem.getVars();
-    State OriginalState  = myProblem.getVars();
+    State F1    = Fn + myProblem.evaluateRHS(Fn) * (timeStep / 4.0);
+    State F2    = Fn + myProblem.evaluateRHS(F1) * (timeStep / 3.0);
+    State F3    = Fn + myProblem.evaluateRHS(F2) * (timeStep / 2.0);
+    State Fnew  = Fn + myProblem.evaluateRHS(F3) * timeStep;
 
-    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha1);
-    myProblem.setState                                    (CurrentState);
-    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha2);
-    myProblem.setState                                    (CurrentState);
-    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha3);
-    myProblem.setState                                    (CurrentState);
-    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha4);
-    myProblem.setState                                    (CurrentState);
+    myProblem.setState(Fnew);
 }
 
 void RK4Solver::Solve()

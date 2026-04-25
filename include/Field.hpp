@@ -13,9 +13,17 @@ class Field
     ParMesh&       getCurrent()       { return currentIteration; }
     ParMesh&       getNext()          { return nextIteration; }
 
-    int     getCols()       {return NumCols;}
-    int     getN()          {return Ntotal;}
-    double  getDomain()     {return DomainSize;}
+    int            getCols()       {return NumCols;}
+    int            getN()          {return Ntotal;}
+    double         getDomain()     {return DomainSize;}
+
+    const ParMesh& getCurrent() const { return currentIteration; }
+
+    int            getCols()               const { return NumCols; }
+    int            getN()                  const { return Ntotal; }
+    double         getDomain()             const { return DomainSize; }
+
+
 
 
     // Modifying Member Functions
