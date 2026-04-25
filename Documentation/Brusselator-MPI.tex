@@ -1,0 +1,116 @@
+\documentclass[]{article}
+
+%opening
+\title{Brusselator Reaction Finite Difference Derivation and Documentation}
+\author{Griffin Layhew}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Problem Definition}
+The Brusselator is a model for an autocatalytic reaction, which can be written as a reaction-diffusion equation for two chemical species, U and V, which each have different diffusion rates. The system is defined as follows:
+
+\begin{equation}
+	\frac{\partial U(\mathbf{x}, t)}{\partial t} = D_U \nabla^2 U(\mathbf{x}, t) + A + U(\mathbf{x}, t)^2 V(\mathbf{x}, t) - (B+1) U(\mathbf{x}, t)
+\end{equation}
+
+\begin{equation}
+	\frac{\partial V(\mathbf{x}, t)}{\partial t} = D_V \nabla^2 V(\mathbf{x}, t) + BU(\mathbf{x}, t) - U(\mathbf{x}, t)^2 V(\mathbf{x}, t)
+\end{equation}
+
+\begin{equation}
+	U(\mathbf{x}, t) = A + \sigma
+\end{equation}
+
+\begin{equation}
+	V(\mathbf{x}, t) = B + \sigma
+\end{equation}
+
+\begin{equation}
+	\left. \frac{\partial U(\mathbf{x}, t)}{\partial t} \right|\Gamma = 0 
+\end{equation}
+
+\begin{equation}
+	\left. \frac{\partial V(\mathbf{x}, t)}{\partial t} \right|\Gamma = 0 
+\end{equation}
+
+
+
+\section{Spatial Discretization (Finite Difference Method)}
+The Brusselator system defined earlier can be decomposed using the finite difference method. Using this method...
+
+\begin{equation}
+	\frac{U^{n+1}_{j,k} - U^n_{j,k}}{\Delta t} = D_U \left( \frac{U^{n}_{j+1,k} - 2 U^{n}_{j,k} + U^{n}_{j-1,k}}{\Delta x^2} + \frac{U^{n}_{j,k+1} - 2 U^{n}_{j,k} + U^{n}_{j,k-1}}{\Delta y^2}\right) + A + {U^{n}_{j,k}}^2 V^{n}_{j,k} - (B+1) U^{n}_{j,k}
+\end{equation}
+
+\begin{equation}
+	\frac{V^{n+1}_{j,k} - V^n_{j,k}}{\Delta t} = D_V \left( \frac{V^{n}_{j+1,k} - 2 V^{n}_{j,k} + V^{n}_{j-1,k}}{\Delta x^2} + \frac{V^{n}_{j,k+1} - 2 V^{n}_{j,k} + V^{n}_{j,k-1}}{\Delta y^2}\right) + B U^{n}_{j,k} - {U^{n}_{j,k}}^2 V^{n}_{j,k}
+\end{equation}
+
+\section{Temporal Approximation (Explicit RK4 Method)}
+It is helpful to defined the spatial derivative operators for both U and V as follows:
+\begin{equation}
+	\mathcal{L}(U^{n}_{j,k}) = D_U \left( \frac{U^{n}_{j+1,k} - 2 U^{n}_{j,k} + U^{n}_{j-1,k}}{\Delta x^2} + \frac{U^{n}_{j,k+1} - 2 U^{n}_{j,k} + U^{n}_{j,k-1}}{\Delta y^2}\right) + A + {U^{n}_{j,k}}^2 V^{n}_{j,k} - (B+1) U^{n}_{j,k}
+\end{equation}
+
+\begin{equation}
+	\mathcal{L}(V^{n}_{j,k}) = D_V \left( \frac{V^{n}_{j+1,k} - 2 V^{n}_{j,k} + V^{n}_{j-1,k}}{\Delta x^2} + \frac{V^{n}_{j,k+1} - 2 V^{n}_{j,k} + V^{n}_{j,k-1}}{\Delta y^2}\right) + B U^{n}_{j,k} - {U^{n}_{j,k}}^2 V^{n}_{j,k}
+\end{equation}
+
+Then, the RK4 method for is defined as follows:
+% Step 1 of Runge Kutta Method for Coupled Systems
+\begin{center}
+	\textbf{Step 1}
+\end{center}
+
+\begin{equation}
+	U^{1}_{j,k} = U^{n}_{j,k} + \frac{\Delta t}{4} \mathcal{L}(U^{n}_{j,k})
+\end{equation}
+\begin{equation}
+	V^{1}_{j,k} = V^{n}_{j,k} + \frac{\Delta t}{4} \mathcal{L}(V^{n}_{j,k})
+\end{equation}
+
+% Step 2 of Runge Kutta Method for Coupled Systems
+\begin{center}
+	\textbf{Step 2}
+\end{center}
+
+\begin{equation}
+	U^{2}_{j,k} = U^{n}_{j,k} + \frac{\Delta t}{3} \mathcal{L}(U^{1}_{j,k})
+\end{equation}
+\begin{equation}
+	V^{2}_{j,k} = V^{n}_{j,k} + \frac{\Delta t}{3} \mathcal{L}(V^{1}_{j,k})
+\end{equation}
+
+% Step 3 of Runge Kutta Method for Coupled Systems
+\begin{center}
+	\textbf{Step 3}
+\end{center}
+
+\begin{equation}
+	U^{3}_{j,k} = U^{n}_{j,k} + \frac{\Delta t}{2} \mathcal{L}(U^{2}_{j,k})
+\end{equation}
+\begin{equation}
+	V^{3}_{j,k} = V^{n}_{j,k} + \frac{\Delta t}{2} \mathcal{L}(V^{2}_{j,k})
+\end{equation}
+
+% Step 4 of Runge Kutta Method for Coupled Systems
+\begin{center}
+	\textbf{Step 4}
+\end{center}
+
+\begin{equation}
+	U^{n+1}_{j,k} = U^{n}_{j,k} + \Delta t \mathcal{L}(U^{3}_{j,k})
+\end{equation}
+\begin{equation}
+	V^{n+1}_{j,k} = V^{n}_{j,k} + \Delta t \mathcal{L}(V^{3}_{j,k})
+\end{equation}
+
+
+
+\end{document}
