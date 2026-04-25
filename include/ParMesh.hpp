@@ -17,12 +17,13 @@ class ParMesh
     ParMesh(int rank, int size, int N, double Domain, int numColumns);
 
     // Non-Modifying Member Functions
-    std::vector<int>    getNeighboorRanks() const {return neighboorRanks;}
-    int                 getRank()           const {return myRank;}
-    int                 getSize()           const {return globalSize;}
-    void                display(int, int)   const; 
-    double              getData(int j, int k, int, int)      const;
-    int                 getNumEntries()     const  {return data.size();}
+    std::vector<int>     getNeighboorRanks() const {return neighboorRanks;}
+    int                  getRank()           const {return myRank;}
+    int                  getSize()           const {return globalSize;}
+    void                 display(int, int)   const; 
+    double               getData(int j, int k, int, int)      const;
+    int                  getNumEntries()     const  {return data.size();}
+    std::vector<double>& getRawData()                 {return data;}
 
     // Modifying Member Functions
     void                haloExchange(int, int);

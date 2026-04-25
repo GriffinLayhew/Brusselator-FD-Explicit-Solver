@@ -11,10 +11,12 @@ class State
 
 
     // Non-Modifying Member Functions
-        Field& getField(int i)           {return scalarVariables[i];}
-        int    getNumdFields()   const   {return scalarVariables.size();}
+        Field&          getField(int i)           {return scalarVariables[i];}
+        const Field&    getField(int i) const { return scalarVariables[i]; }
+        int             getNumdFields()   const   {return scalarVariables.size();}
 
     // Modifying Member Functions
+        State operator+(State other);
 
     private:
         std::vector<Field> scalarVariables;

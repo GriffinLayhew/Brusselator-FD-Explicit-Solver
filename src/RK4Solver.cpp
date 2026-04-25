@@ -16,11 +16,17 @@ void RK4Solver::doNextStep()
     double alpha3 = timeStep / 2.0;
     double alpha4 = timeStep / 1.0;
 
-    myProblem.evaluateRHS(alpha1);
-    myProblem.evaluateRHS(alpha2);
-    myProblem.evaluateRHS(alpha3);
-    myProblem.evaluateRHS(alpha4);
+    State CurrentState   = myProblem.getVars();
+    State OriginalState  = myProblem.getVars();
 
+    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha1);
+    myProblem.setState                                    (CurrentState);
+    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha2);
+    myProblem.setState                                    (CurrentState);
+    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha3);
+    myProblem.setState                                    (CurrentState);
+    CurrentState         = OriginalState + myProblem.evaluateRHS(alpha4);
+    myProblem.setState                                    (CurrentState);
 }
 
 void RK4Solver::Solve()

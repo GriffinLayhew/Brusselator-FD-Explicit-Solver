@@ -24,10 +24,12 @@ class Brusselator
 
 
     // Modifying Member Functions
-        void evaluateRHS(double);
-        void initialize(std::mt19937 gen, std::uniform_real_distribution<> Distribution);
-        State& getVars() { return myVars; }
-        const State& getVars() const { return myVars; }
+        State   evaluateRHS(double);
+        void    forwardEuler(double);
+        void    initialize(std::mt19937 gen, std::uniform_real_distribution<> Distribution);
+        State&  getVars() { return myVars; }
+        const   State& getVars() const { return myVars; }
+        void    setState(State&);
 
     private:
         Parameters myParams;

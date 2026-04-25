@@ -43,12 +43,12 @@ int main(int argc, char* argv[])
     Parameters params;
     params.A = 1.0;
     params.B = 3.0;
-    params.Du = 1.0e-5;
-    params.Dv = 1.0e-3;
+    params.Du = 1.0e-2;
+    params.Dv = 1.0e-1;
 
-    double      timeStep = 0.1;
+    double      timeStep = 0.01;
     int         numSteps = 1000;
-    int         saveFreq = 100;
+    int         saveFreq = 10;
 
     /*
     =============================================
